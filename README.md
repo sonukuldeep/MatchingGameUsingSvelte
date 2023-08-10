@@ -1,38 +1,66 @@
-# create-svelte
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+# Matching game on svelte
 
-## Creating a project
+This game was created by following [this](https://joyofcode.xyz/svelte-matching-game) youtube video by Joy on youtube.
 
-If you're seeing this, you've probably already done this step. Congrats!
+Matching game is an interactive game where a player is required to select matching tiles to win.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+A heartly thanks to JoyOfCode, the creator of the tutorial on youtube and without his help this project would never have been possible.
 
-# create a new project in my-app
-npm create svelte@latest my-app
+## Acknowledgements
+
+ - JOYOFCODE the youtuber
+ - Svelte community
+ - Every tutorial video on svelte
+ - Opensource community
+
+
+## Installation
+
+The project requires no special dependency.
+
+### Clone the website using
+```npm
+git clone 
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Install this project with npm
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+  cd project-directory
+  npm i
 ```
 
-## Building
-
-To create a production version of your app:
+### Run using
 
 ```bash
-npm run build
+  npm run dev
 ```
 
-You can preview the production build with `npm run preview`.
+### In the browser open
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+```bash
+  http://localhost:5137/
+```
+
+## Important files
+```css
+src/routes
+├── +layout.svelte
+└── +page.svelte
+```
+
+## Badges
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/) 
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
+
+
+## Author
+- [@sonukuldeep](https://www.github.com/sonukuldeep)
+
+
+## 🛠 Skills
+
+[![My Skills](https://skillicons.dev/icons?i=js,ts,html,css,tailwind,sass,nodejs,react,nextjs,svelte,vue,flask,rust,python,php,solidity,mongodb,mysql,prisma,figma,threejs,unity,godot)](https://github.com/sonukuldeep)
