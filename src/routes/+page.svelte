@@ -1,16 +1,17 @@
 <script lang="ts">
     import { emoji } from "./emoji";
 
-    type State = "start" | "playing" | "paused" | "won" | "lost";
+    type State = "start" | "playing" | "paused" | "won" | "lost" | "settings";
 
     let state: State = "start";
-    let size = 10;
+    let size = 12;
     let grid = createGrid();
     let maxMatches = grid.length / 2;
     let selected: number[] = [];
     let matches: string[] = [];
     let timerId: number | null = null;
     let time = 20;
+    let gameMode = "Human";
 
     function startGameTimer() {
         function coundDown() {
@@ -88,10 +89,22 @@
     $: selected.length === 2 && matchCards();
     $: maxMatches === matches.length && gameWon();
     $: time === 0 && gameLost();
-    
 </script>
 
 <svelte:window on:keydown={pauseGame} />
+
+<div class="difficulty">
+    <div>Difficulty: {gameMode}</div>
+    {#if state==='playing'}
+         <button on:click={() => (state = "paused")}>Pause</button>
+    {/if}
+    {#if state==='settings'}
+         <button on:click={() => (state = "start")}>Home</button>
+    {/if}
+    {#if state==='paused'}
+         <button on:click={() => (state = "playing")}>Resume</button>
+    {/if}
+</div>
 
 {#if state === "paused"}
     <h1>Game paused</h1>
@@ -100,15 +113,50 @@
 {#if state === "start"}
     <h1>Matching game</h1>
     <button
+        class="UIBtn"
         on:click={() => {
             state = "playing";
         }}>Play</button
     >
+    <button
+        class="UIBtn"
+        on:click={() => {
+            state = "settings";
+        }}>Settings</button
+    >
+{/if}
+
+{#if state === "settings"}
+    <h1>Game difficulty</h1>
+    <button
+        class="UIBtn"
+        on:click={() => {
+            state = "start";
+            time = 40;
+            gameMode = "Ape";
+        }}>Ape</button
+    >
+    <button
+        class="UIBtn"
+        on:click={() => {
+            state = "start";
+            time = 20;
+            gameMode = "Human";
+        }}>Human</button
+    >
+    <button
+        class="UIBtn"
+        on:click={() => {
+            state = "start";
+            time = 10;
+            gameMode = "Bot";
+        }}>Bot</button
+    >
 {/if}
 
 {#if state === "playing"}
-    <h1 class="timer" class:pulse={time <= 10}>
-        {time}
+    <h1 class="timer">
+        <span class:pulse={time <= 10}>{time}</span>
     </h1>
     <div class="matches">
         {#each matches as card}
@@ -146,18 +194,27 @@
 
 <style>
     .cards {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 0.4rem;
+        max-width: 768px;
     }
     .card {
-        height: 140px;
-        width: 140px;
+        height: 120px;
+        width: 120px;
+        max-width: 22vw;
+        max-height: 22vw;
         font-size: 4rem;
         background-color: var(--bg-2);
 
         transition: rotate 0.3s ease-out;
         transform-style: preserve-3d;
+    }
+
+    .UIBtn {
+        border: 4px solid var(--txt-1);
+        margin-top: 2rem;
     }
 
     .card.selected {
@@ -196,6 +253,26 @@
     .pulse {
         color: var(--pulse);
         animation: pulse 1s infinite ease;
+        display: inline-block;
+    }
+
+    .difficulty {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        font-weight: 400;
+        font-size: small;
+    }
+
+    .difficulty button {
+        font-size: inherit;
+        padding: 0;
+        width: 100%;
+        border: 1px solid var(--txt-1);
+        border-radius: 4px;
+        padding: 4px 0;
+        font-weight: 400;
+        margin-top: 4px;
     }
 
     @keyframes pulse {
