@@ -1,8 +1,9 @@
 <script lang="ts">
     import { emoji } from "./emoji";
+    import gameData from '../store/gameData';
 
     type State = "start" | "playing" | "paused" | "won" | "lost" | "settings";
-
+    type GameData = { time: number; gameMode: string };
     let state: State = "start";
     let size = 12;
     let grid = createGrid();
@@ -12,6 +13,17 @@
     let timerId: number | null = null;
     let time = 20;
     let gameMode = "Human";
+
+    (function getLocalStorage() {
+        const data = $gameData
+        time = data.time;
+        gameMode = data.gameMode;
+    })();
+
+    function setLocalStorage() {
+        const data: GameData = { time, gameMode };
+        gameData.set(data)
+    }
 
     function startGameTimer() {
         function coundDown() {
@@ -95,14 +107,14 @@
 
 <div class="difficulty">
     <div>Difficulty: {gameMode}</div>
-    {#if state==='playing'}
-         <button on:click={() => (state = "paused")}>Pause</button>
+    {#if state === "playing"}
+        <button on:click={() => (state = "paused")}>Pause</button>
     {/if}
-    {#if state==='settings'}
-         <button on:click={() => (state = "start")}>Home</button>
+    {#if state === "settings"}
+        <button on:click={() => (state = "start")}>Home</button>
     {/if}
-    {#if state==='paused'}
-         <button on:click={() => (state = "playing")}>Resume</button>
+    {#if state === "paused"}
+        <button on:click={() => (state = "playing")}>Resume</button>
     {/if}
 </div>
 
@@ -134,6 +146,7 @@
             state = "start";
             time = 40;
             gameMode = "Ape";
+            setLocalStorage();
         }}>Ape</button
     >
     <button
@@ -142,6 +155,7 @@
             state = "start";
             time = 20;
             gameMode = "Human";
+            setLocalStorage();
         }}>Human</button
     >
     <button
@@ -150,6 +164,7 @@
             state = "start";
             time = 10;
             gameMode = "Bot";
+            setLocalStorage();
         }}>Bot</button
     >
 {/if}
