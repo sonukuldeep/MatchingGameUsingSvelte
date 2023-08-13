@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { emoji } from "./emoji";
     import gameData from "../store/gameData";
 
     type State = "start" | "playing" | "paused" | "won" | "lost" | "settings";
     type GameData = { time: number; gameMode: string };
+    const pets = Array.from({ length: 33 }, (_, i) => i);
     let state: State = "start";
     let size = 12;
     let grid = createGrid();
     let maxMatches = grid.length / 2;
     let selected: number[] = [];
-    let matches: string[] = [];
+    let matches: number[] = [];
     let timerId: number | null = null;
     let time = 20;
     let gameMode = "Human";
@@ -33,12 +33,12 @@
     }
 
     function createGrid() {
-        let cards = new Set<string>();
+        let cards = new Set<number>();
         let maxSize = size / 2;
 
         while (cards.size < maxSize) {
-            const randomIndex = Math.floor(Math.random() * emoji.length);
-            cards.add(emoji[randomIndex]);
+            const randomIndex = Math.floor(Math.random() * pets.length);
+            cards.add(pets[randomIndex]);
         }
         return shuffle([...cards, ...cards]);
     }
@@ -173,11 +173,7 @@
     <h1 class="timer">
         <span class:pulse={time <= 10}>{time}</span>
     </h1>
-    <div class="matches">
-        {#each matches as card}
-            <div>{card}</div>
-        {/each}
-    </div>
+
     <div class="cards">
         {#each grid as card, cardIndex}
             {@const isSelected = selected.includes(cardIndex)}
@@ -192,15 +188,13 @@
                 on:click={() => selectCard(cardIndex)}
             >
                 <div class:match class="back">
-                    <!-- <div class="pet-image"></div> -->
                     <img
-                        style="left: calc(-1 * {cardIndex} * 96px + 10px); clip-path: inset(0px calc(3072px - 96px * {cardIndex}) 0px calc(96px * {cardIndex}));"
+                        style="left: calc(-1 * {card} * 96px + 10px); clip-path: inset(0px calc(3072px - 96px * {card}) 0px calc(96px * {card}));"
                         class="pet-image"
                         src="/pets.png"
                         alt="pets"
                     />
                 </div>
-                <!-- <div class:match class="back">{card}</div> -->
             </button>
         {/each}
     </div>
@@ -279,13 +273,6 @@
         /* object-fit: cover; */
         /* left: calc(-1 * var(--value) * 96px + 10px);
         clip-path: inset(0px calc(3072px - 96px * var(--value)) 0px calc(96px * var(--value))); */
-    }
-
-    .matches {
-        display: flex;
-        gap: 1rem;
-        margin-block: 2rem;
-        font-size: 3rem;
     }
 
     .timer {
