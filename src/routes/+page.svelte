@@ -1,6 +1,6 @@
 <script lang="ts">
     import { emoji } from "./emoji";
-    import gameData from '../store/gameData';
+    import gameData from "../store/gameData";
 
     type State = "start" | "playing" | "paused" | "won" | "lost" | "settings";
     type GameData = { time: number; gameMode: string };
@@ -15,19 +15,19 @@
     let gameMode = "Human";
 
     (function getLocalStorage() {
-        const data = $gameData
+        const data = $gameData;
         time = data.time;
         gameMode = data.gameMode;
     })();
 
     function setLocalStorage() {
         const data: GameData = { time, gameMode };
-        gameData.set(data)
+        gameData.set(data);
     }
 
     function startGameTimer() {
         function coundDown() {
-            state !== "paused" && (time -= 1);
+            // state !== "paused" && (time -= 1);
         }
         timerId = setInterval(coundDown, 1000);
     }
@@ -191,7 +191,16 @@
                 class:flip={isSelectedOrMatched}
                 on:click={() => selectCard(cardIndex)}
             >
-                <div class:match class="back">{card}</div>
+                <div class:match class="back">
+                    <!-- <div class="pet-image"></div> -->
+                    <img
+                        style="left: calc(-1 * {cardIndex} * 96px + 10px); clip-path: inset(0px calc(3072px - 96px * {cardIndex}) 0px calc(96px * {cardIndex}));"
+                        class="pet-image"
+                        src="/pets.png"
+                        alt="pets"
+                    />
+                </div>
+                <!-- <div class:match class="back">{card}</div> -->
             </button>
         {/each}
     </div>
@@ -206,6 +215,8 @@
     <h1>You won! 🏆</h1>
     <button on:click={() => (state = "playing")}>Play again</button>
 {/if}
+
+<img hidden class="pets" src="/pets.png" alt="" />
 
 <style>
     .cards {
@@ -222,9 +233,10 @@
         max-height: 22vw;
         font-size: 4rem;
         background-color: var(--bg-2);
-
+        position: relative;
         transition: rotate 0.3s ease-out;
         transform-style: preserve-3d;
+        border: 4px solid transparent;
     }
 
     .UIBtn {
@@ -252,6 +264,21 @@
         place-content: center;
         backface-visibility: hidden;
         rotate: y 180deg;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        border-radius: 4px;
+    }
+
+    .pet-image {
+        --value: 2;
+        position: absolute;
+        bottom: -5px;
+        height: 120px;
+        /* object-fit: cover; */
+        /* left: calc(-1 * var(--value) * 96px + 10px);
+        clip-path: inset(0px calc(3072px - 96px * var(--value)) 0px calc(96px * var(--value))); */
     }
 
     .matches {
