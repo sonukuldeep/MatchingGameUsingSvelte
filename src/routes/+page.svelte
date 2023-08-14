@@ -27,7 +27,7 @@
 
     function startGameTimer() {
         function coundDown() {
-            // state !== "paused" && (time -= 1);
+            state !== "paused" && (time -= 1);
         }
         timerId = setInterval(coundDown, 1000);
     }
