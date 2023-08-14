@@ -189,7 +189,10 @@
             >
                 <div class:match class="back">
                     <img
-                        style="left: calc(-1 * {card} * 96px + 10px); clip-path: inset(0px calc(3072px - 96px * {card}) 0px calc(96px * {card}));"
+                        style="left: calc(-1 * {card} * 96px + {window.innerWidth >
+                        768
+                            ? '10px'
+                            : '-10px'}); clip-path: inset(0px calc(3072px - 96px * {card}) 0px calc(96px * {card}));"
                         class="pet-image"
                         src="/pets.png"
                         alt="pets"
@@ -270,9 +273,6 @@
         position: absolute;
         bottom: -5px;
         height: 120px;
-        /* object-fit: cover; */
-        /* left: calc(-1 * var(--value) * 96px + 10px);
-        clip-path: inset(0px calc(3072px - 96px * var(--value)) 0px calc(96px * var(--value))); */
     }
 
     .timer {
@@ -307,6 +307,14 @@
     @keyframes pulse {
         to {
             scale: 1.4;
+        }
+    }
+
+    @media (width < 768px) {
+        .pet-image {
+            bottom: auto;
+            top: 50%;
+            transform: translateY(-50%);
         }
     }
 </style>
